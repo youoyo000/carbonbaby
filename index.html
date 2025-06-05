@@ -10,104 +10,199 @@
       font-family: 'Noto Sans TC', 'Segoe UI', Arial, sans-serif;
       color: #22543d;
     }
+    .main-header {
+      background: linear-gradient(90deg, #a8e6cf 0%, #f8bbd0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 10px 36px 10px;
+      border-bottom: 3px solid #e0f2f1;
+      position: relative;
+    }
+    .header-flex {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 780px;
+      gap: 40px;
+    }
+    .hero-anim {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* left margin for visual balance */
+      margin-left: 0;
+    }
+    .hero-char {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: #fff;
+      vertical-align: middle;
+      filter: drop-shadow(0 3px 18px #b2dfdb);
+      animation: heroJump 1.8s infinite cubic-bezier(.6,-.28,.74,.05);
+      object-fit: cover;
+      user-select: none;
+      touch-action: none;
+      will-change: transform;
+      max-width: 95vw;
+      min-width: 100px;
+      margin-bottom: 0;
+    }
+    @keyframes heroJump {
+      0% {transform:translateY(0);}
+      10% {transform:translateY(-7px);}
+      18% {transform:translateY(0);}
+      100% {transform:translateY(0);}
+    }
+    .header-mainblock {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255,255,255,0.17);
+      border-radius: 32px;
+      box-shadow: 0 4px 36px #b2dfdb33;
+      padding: 42px 44px 38px 44px;
+      max-width: 410px;
+      width: 100%;
+      min-width: 220px;
+      transition: box-shadow .18s;
+      position: relative;
+    }
+    .header-mainblock:hover {
+      box-shadow: 0 12px 44px #b2dfdb66;
+    }
+    .main-header h1 {
+      margin: 0 0 16px 0;
+      font-size: 2.5em;
+      letter-spacing: 2.2px;
+      text-align: center;
+      font-weight: bold;
+      color: #226746;
+      text-shadow: 0 2px 10px #f8bbd055;
+    }
+    .subtitle {
+      color: #607d8b;
+      margin: 0 0 30px 0;
+      font-size: 1.13em;
+      text-align: center;
+      letter-spacing: 1.2px;
+    }
+    .btn.main {
+      background:#81c784;
+      color:#fff;
+      border-radius:20px;
+      padding:15px 44px;
+      text-decoration:none;
+      font-weight:600;
+      letter-spacing:2px;
+      font-size:1.2em;
+      display:inline-block;
+      margin-top: 0;
+      box-shadow: 0 4px 18px #b2dfdb55;
+      transition:.18s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn.main:hover {
+      background: #43a047;
+      color: #fffde7;
+      box-shadow: 0 8px 30px #c8e6c9;
+      transform: scale(1.05);
+    }
     .card-list {
       display: flex;
       justify-content: center;
       gap: 40px;
-      margin: 60px auto 44px auto;
+      margin: 55px auto 44px auto;
       flex-wrap: wrap;
-      max-width: 1200px;
+      max-width: 1300px;
     }
     .card-menu {
       background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 2px 16px rgba(67,160,71,0.10);
+      border-radius: 18px;
+      box-shadow: 0 2px 16px rgba(67,160,71,0.14);
       min-width: 320px;
-      max-width: 520px;
+      max-width: 470px;
       width: 100%;
       margin: 0 18px;
-      padding: 38px 38px 32px 38px;
-      font-size: 1.15em;
+      padding: 34px 38px 28px 38px;
+      font-size: 1.17em;
       line-height: 1.8;
       display: flex;
       align-items: flex-start;
-      gap: 22px;
+      gap: 20px;
       border: 2px solid #e0f2f1;
       box-sizing: border-box;
+      transition: box-shadow .17s, background .17s;
       position: relative;
-      transition: box-shadow .17s, border-color .17s;
+    }
+    .card-menu span {font-size:2.3em;}
+    .card-menu h3 {margin:0 0 7px 0; font-size:1.17em; color:#226746;}
+    .card-menu:hover {
+      box-shadow: 0 10px 38px rgba(33,150,83,0.13);
+      background: #f1f8e9;
+      border-color: #81c784;
     }
     .card-menu.qna {
       background: linear-gradient(125deg, #f0fff0 70%, #fffde7 100%);
       border-color: #fff9c4;
     }
-    .card-menu span {
-      font-size:2.3em;
-      flex-shrink: 0;
-      margin-right: 4px;
-      margin-top: 3px;
-      display: block;
-    }
-    .card-menu h3 {
-      margin:0 0 10px 0;
-      font-size:1.15em;
-      color:#226746;
-      letter-spacing: 1px;
-    }
-    .card-menu p {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-    .card-menu:hover {
-      box-shadow: 0 10px 38px rgba(33,150,83,0.13);
-      border-color: #b2dfdb;
-    }
-
-    /* 問答按鈕區塊：一行三個，第四個自動換行 */
-    .quiz-btn-group {
+    /* v32 每日問答排版：column，按鈕上下各一行，選項長條、間距大、響應式 */
+    .quiz-area-v32 {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: stretch;
       gap: 15px;
-      justify-content: center;
-      margin: 18px 0 7px 0;
-      width: 100%;
+      margin-top: 2px;
     }
-    .quiz-opt {
-      background: linear-gradient(90deg, #81c784 60%, #ffd54f 100%);
+    .quiz-question-v32 {
+      font-weight: bold;
+      font-size: 1.15em;
+      margin-bottom: 12px;
+      color: #226746;
+      text-align: left;
+    }
+    .quiz-btns-v32 {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    .quiz-opt-v32 {
+      background: linear-gradient(90deg, #81c784 70%, #ffd54f 100%);
       color: #226746;
       border: none;
-      border-radius: 22px;
-      padding: 11px 0;
-      font-size: 1em;
+      border-radius: 18px;
+      padding: 14px 0;
+      font-size: 1.11em;
       font-weight: bold;
       cursor: pointer;
       transition: background 0.15s, color 0.15s, transform 0.11s;
-      box-shadow: 0 2px 12px #81c78422;
+      box-shadow: 0 2px 14px #81c78422;
       letter-spacing: 1px;
       outline: none;
+      min-width: 160px;
+      margin: 0 auto;
+      width: 95%;
       text-align: center;
-      width: calc((100% - 30px)/3);
-      min-width: 100px;
-      max-width: 180px;
-      margin: 0;
-      box-sizing: border-box;
-      word-break: break-word;
-      white-space: normal;
-      overflow-wrap: break-word;
-      flex: 0 0 calc((100% - 30px)/3);
+      display: block;
     }
-    .quiz-opt:hover, .quiz-opt:focus {
-      background: linear-gradient(90deg, #43a047 70%, #ffd54f 100%);
+    .quiz-opt-v32:hover, .quiz-opt-v32:focus {
+      background: linear-gradient(90deg, #43a047 80%, #ffd54f 100%);
       color: #fff;
       transform: translateY(-2px) scale(1.045);
       box-shadow: 0 6px 22px #ffd54f44;
     }
-    .quiz-opt:active {
+    .quiz-opt-v32:active {
       background: #e0f2f1;
       color: #388e3c;
       transform: scale(0.98);
     }
-    .quiz-opt[disabled] {
+    .quiz-opt-v32[disabled] {
       filter: grayscale(45%) brightness(1.06);
       cursor: not-allowed;
       opacity: 0.7;
@@ -116,21 +211,20 @@
       box-shadow: none;
       transform: none;
     }
-
-    #quizFeedback {
+    .quiz-feedback-v32 {
       min-height: 1.4em;
       margin-bottom: 2px;
       font-size: 1em;
       text-align: center;
       font-weight: 500;
     }
-    #quizCountdown {
+    .quiz-countdown-v32 {
       color: #d84315;
       font-size: 0.98em;
       margin-top: 7px;
       text-align: center;
     }
-    #quizNextBtn, #quizRetryBtn {
+    .quiz-next-v32, .quiz-retry-v32 {
       margin-top: 13px;
       display: inline-block;
       background: linear-gradient(90deg, #43a047 80%, #ffd54f 100%);
@@ -145,67 +239,158 @@
       letter-spacing: 1px;
       box-shadow: 0 2px 8px #81c78422;
     }
-    #quizNextBtn:hover, #quizRetryBtn:hover {
+    .quiz-next-v32:hover, .quiz-retry-v32:hover {
       background: #2e7031;
       color: #fffde7;
     }
-
-    @media (max-width: 700px) {
-      .card-list { gap: 14px; }
-      .card-menu, .card-menu.qna {
-        min-width: 94vw;
-        max-width: 99vw;
-        padding: 17px 4vw 17px 4vw;
-      }
-      .quiz-btn-group {
-        gap: 8px;
-      }
-      .quiz-opt {
-        min-width: 70px;
-        max-width: 98vw;
-        width: calc((100% - 16px)/3);
-        font-size: 0.98em;
-        padding: 8px 0;
-        flex: 0 0 calc((100% - 16px)/3);
-      }
+    .main-footer {
+      text-align:center;
+      color:#999;
+      font-size:0.97em;
+      margin:40px 0 10px 0;
     }
-    @media (max-width: 420px) {
-      .quiz-opt { font-size: 0.93em; min-width: 60px; }
+    @media (max-width: 900px) {
+      .card-list { gap: 18px; }
+      .card-menu, .card-menu.qna {
+        max-width: 97vw;
+        min-width: 0;
+        padding: 18px 5vw 18px 5vw;
+      }
+      .header-flex { gap: 16px; max-width: 98vw;}
+      .hero-char { width: 110px; height: 110px; min-width: 64px;}
+    }
+    @media (max-width: 700px) {
+      .main-header {
+        padding: 24px 3vw 10px 3vw;
+      }
+      .header-flex {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+      }
+      .header-mainblock {
+        padding: 28px 6vw 25px 6vw;
+        max-width: 97vw;
+      }
+      .main-header h1 {
+        font-size: 1.6em;
+      }
+      .btn.main {
+        padding: 11px 20px;
+        font-size: 1em;
+      }
+      .card-list { gap: 10px; }
+      .card-menu, .card-menu.qna {
+        min-width: 98vw;
+        max-width: 99vw;
+        padding: 15px 2vw 15px 2vw;
+      }
+      .quiz-opt-v32 { min-width: 90px; font-size: 1em; }
     }
   </style>
 </head>
 <body>
+  <header class="main-header">
+    <div class="header-flex">
+      <div class="hero-anim">
+        <img src="carbonbaby.png" class="hero-char" id="heroChar" alt="可愛角色"/>
+      </div>
+      <div class="header-mainblock">
+        <h1>碳足跡日記</h1>
+        <p class="subtitle">用有趣的互動和角色陪伴，記錄你的低碳生活</p>
+        <a class="btn main" href="diary.html">開始今天的日記</a>
+      </div>
+    </div>
+  </header>
   <section class="card-list">
     <div class="card-menu">
       <span>💡</span>
       <div>
         <h3>環保小知識</h3>
-        <p>冷氣調高1°C，可省下6%用電量！</p>
+        <p id="randFact">...</p>
       </div>
     </div>
     <div class="card-menu qna">
       <span>❓</span>
-      <div style="flex: 1;">
+      <div>
         <h3>每日小問答</h3>
         <div id="quizArea"></div>
       </div>
     </div>
   </section>
+  <footer class="main-footer">
+    設計與資料整理：碳足跡日記團隊
+  </footer>
   <script>
-    // 顯示一題四選項，按鈕一行三個，第四個自動換行
-    const quiz = {
-      q:"資源回收能減少什麼？",
-      opts:["能量消耗","碳排放","垃圾量","以上皆是"],
-      a:3
-    };
-    let html = `<div><b>${quiz.q}</b></div>`;
-    html += `<div class="quiz-btn-group">`;
-    for(let i=0; i<quiz.opts.length; i++) {
-      html += `<button class="quiz-opt" onclick="quizAns(${i},${quiz.a},this)">${quiz.opts[i]}</button>`;
+    // 隨機小知識
+    const facts=[
+      "冷氣調高1°C，可省下6%用電量！",
+      "步行1公里=減少約250g CO₂e！",
+      "資源回收一公斤鋁罐可省20倍能量。",
+      "每週一天全素，年減碳超50kg。",
+      "台灣每年人均塑膠餐具超700件！",
+      "用手帕代替紙巾，年省減碳約12公斤！",
+      "隨手關燈，年省電減碳60公斤！"
+    ];
+    document.getElementById('randFact').textContent = facts[Math.floor(Math.random()*facts.length)];
+
+    // 每日問答題庫（每題都四個選項）
+    const quizData=[
+      {
+        q:"哪種食物碳足跡最高？",
+        opts:["牛肉","蔬菜","米飯","豬肉"],
+        a:0
+      },
+      {
+        q:"資源回收能減少什麼？",
+        opts:["能量消耗","碳排放","垃圾量","以上皆是"],
+        a:3
+      },
+      {
+        q:"下列哪種交通最環保？",
+        opts:["步行/騎腳踏車","開車","搭機車","搭公車"],
+        a:0
+      },
+      {
+        q:"使用一次性塑膠餐具會造成？",
+        opts:["碳排增加","垃圾量增加","資源浪費","以上皆是"],
+        a:3
+      },
+      {
+        q:"吃素一餐約可減少多少CO₂e？",
+        opts:["100g","1000g","10g","300g"],
+        a:1
+      },
+      {
+        q:"冷氣調高1°C效果為？",
+        opts:["減少用電與碳排","沒差","增加碳排","提升舒適度"],
+        a:0
+      },
+      {
+        q:"SDG 13 主要目標是？",
+        opts:["氣候行動","海洋保育","性別平等","消除貧窮"],
+        a:0
+      }
+    ];
+
+    let quizIdx = Math.floor(Math.random()*quizData.length);
+
+    function renderQuiz(idx) {
+      const quiz = quizData[idx];
+      let html = `<div class="quiz-area-v32">`;
+      html += `<div class="quiz-question-v32">${quiz.q}</div>`;
+      html += `<div class="quiz-btns-v32">`;
+      quiz.opts.forEach((o,i)=>{
+        html += `<button class="quiz-opt-v32" onclick="quizAns(${i},${quiz.a},this)">${o}</button>`;
+      });
+      html += `</div>`;
+      html += `<div class="quiz-feedback-v32" id="quizFeedback"></div>
+               <div class="quiz-countdown-v32" id="quizCountdown"></div>`;
+      html += `</div>`;
+      document.getElementById('quizArea').innerHTML = html;
     }
-    html += `</div><div id="quizFeedback"></div>
-             <div id="quizCountdown"></div>`;
-    document.getElementById('quizArea').innerHTML = html;
+
+    renderQuiz(quizIdx);
 
     window.quizAns = function(i, a, btn) {
       let fb = document.getElementById('quizFeedback');
@@ -215,25 +400,41 @@
       if(i==a){
         fb.textContent = "答對了！";
         fb.style.color="#43a047";
-        countdown.innerHTML = `<button id="quizNextBtn">換一題</button>`;
+        countdown.innerHTML = `<button class="quiz-next-v32" id="quizNextBtn">換一題</button>`;
         document.getElementById('quizNextBtn').onclick = ()=>{
-          location.reload();
+          let newIdx;
+          do { newIdx = Math.floor(Math.random()*quizData.length); } while(newIdx === quizIdx && quizData.length > 1);
+          quizIdx = newIdx;
+          renderQuiz(quizIdx);
         };
       }else{
         fb.textContent = "再想想！";
         fb.style.color="#d84315";
         let sec = 3;
-        countdown.innerHTML = `可以在 <b>${sec}</b> 秒後再試一次`;
+        countdown.innerHTML = `可以在 <b>${sec}</b> 秒後再試一次，或&nbsp; <button class="quiz-next-v32" id="quizNextBtn">換一題</button>`;
         let timer = setInterval(()=>{
           sec--;
-          countdown.innerHTML = `可以在 <b>${sec}</b> 秒後再試一次`;
+          countdown.innerHTML = `可以在 <b>${sec}</b> 秒後再試一次，或&nbsp; <button class="quiz-next-v32" id="quizNextBtn">換一題</button>`;
           if(sec<=0){
             clearInterval(timer);
-            countdown.innerHTML = `<button id="quizRetryBtn">再答一次</button>　<button id="quizNextBtn">換一題</button>`;
-            document.getElementById('quizRetryBtn').onclick = ()=>{ location.reload(); };
-            document.getElementById('quizNextBtn').onclick = ()=>{ location.reload(); };
+            countdown.innerHTML = `<button class="quiz-retry-v32" id="quizRetryBtn">再答一次</button>　<button class="quiz-next-v32" id="quizNextBtn">換一題</button>`;
+            document.getElementById('quizRetryBtn').onclick = ()=>{
+              renderQuiz(quizIdx);
+            };
+            document.getElementById('quizNextBtn').onclick = ()=>{
+              let newIdx;
+              do { newIdx = Math.floor(Math.random()*quizData.length); } while(newIdx === quizIdx && quizData.length > 1);
+              quizIdx = newIdx;
+              renderQuiz(quizIdx);
+            };
           }
         },1000);
+        document.getElementById('quizNextBtn').onclick = ()=>{
+          let newIdx;
+          do { newIdx = Math.floor(Math.random()*quizData.length); } while(newIdx === quizIdx && quizData.length > 1);
+          quizIdx = newIdx;
+          renderQuiz(quizIdx);
+        };
       }
     };
   </script>
