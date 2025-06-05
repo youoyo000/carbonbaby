@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>碳足跡日記 - 首頁</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero-char {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: #fff;
+      vertical-align: middle;
+      filter: drop-shadow(0 3px 14px #b2dfdb);
+      position: relative;
+      z-index: 2;
+      animation: heroJump 1.8s infinite cubic-bezier(.6,-.28,.74,.05);
+      object-fit: cover;
+      box-sizing: border-box;
+      margin-bottom: 14px;
+      max-width: 95vw;
+      max-height: 29vw;
+      min-width: 120px;
+      min-height: 120px;
+    }
+    @media (max-width: 700px) {
+      .hero-char { width: 100px; height: 100px; }
+    }
+    @keyframes heroJump {
+      0% {transform:translateY(0);}
+      10% {transform:translateY(-7px);}
+      18% {transform:translateY(0);}
+      100% {transform:translateY(0);}
+    }
+    .main-header {
+      background: linear-gradient(90deg, #a8e6cf 0%, #f8bbd0 100%);
+      text-align: center;
+      padding: 60px 10px 28px 10px;
+      border-bottom: 3px solid #e0f2f1;
+      position: relative;
+    }
+
+    /* 卡片區塊加寬 */
+    .card-list {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 42px auto 44px auto;
+      flex-wrap: wrap;
+      max-width: 1300px;
+    }
+    .card-menu {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(67,160,71,0.14);
+      min-width: 320px;
+      max-width: 470px;
+      width: 100%;
+      margin: 0 18px;
+      padding: 34px 38px 28px 38px;
+      flex: 1 1 370px;
+      font-size: 1.17em;
+      line-height: 1.8;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      cursor: pointer;
+      transition: box-shadow .17s, background .17s;
+      border: 2px solid transparent;
+      box-sizing: border-box;
+    }
+    .card-menu span {font-size:2.3em;}
+    .card-menu h3 {margin:0 0 4px 0; font-size:1.17em; color:#226746;}
+    .card-menu:hover {
+      box-shadow: 0 10px 38px rgba(33,150,83,0.12);
+      background: #f1f8e9;
+      border-color: #81c784;
+    }
+
+    /* 問答按鈕區塊：橫向排列、空間自動分配、不中斷換行 */
+    .quiz-btn-group {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 14px;
+      justify-content: center;
+      margin: 15px 0 7px 0;
+      width: 100%;
+      /* 讓按鈕放在框內 */
+    }
+    @media (max-width: 700px) {
+      .quiz-btn-group {
+        gap: 7px;
+      }
+    }
+
+    /* 回答按鈕縮小、配合全站配色 */
+    .quiz-opt {
+      flex: 1 1 0;
+      background: linear-gradient(90deg, #81c784 60%, #ffd54f 100%);
+      color: #226746;
+      border: none;
+      border-radius: 28px;
+      padding: 10px 0;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, transform 0.11s;
+      box-shadow: 0 2px 14px #81c78422;
+      letter-spacing: 1px;
+      outline: none;
+      min-width: 90px;
+      max-width: 160px;
+      margin: 0;
+      text-align: center;
+    }
+    .quiz-btn-group .quiz-opt:not(:last-child) {
+      margin-right: 0;
+    }
+    .quiz-opt:hover, .quiz-opt:focus {
+      background: linear-gradient(90deg, #43a047 70%, #ffd54f 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.045);
+      box-shadow: 0 6px 22px #ffd54f44;
+    }
+    .quiz-opt:active {
+      background: #e0f2f1;
+      color: #388e3c;
+      transform: scale(0.98);
+    }
+    .quiz-opt[disabled] {
+      filter: grayscale(45%) brightness(1.06);
+      cursor: not-allowed;
+      opacity: 0.7;
+      background: #eee;
+      color: #bdbdbd;
+      box-shadow: none;
+      transform: none;
+    }
+
+    #quizNextBtn, #quizRetryBtn {
+      margin-top: 13px;
+      display: inline-block;
+      background: linear-gradient(90deg, #43a047 80%, #ffd54f 100%);
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      padding: 9px 22px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.18s, color 0.18s;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px #81c78422;
+    }
+    #quizNextBtn:hover, #quizRetryBtn:hover {
+      background: #2e7031;
+      color: #fffde7;
+    }
+    #quizCountdown {
+      color: #d84315;
+      font-size: 0.97em;
+      margin-top: 4px;
+    }
+    @media (max-width: 700px) {
+      #quizNextBtn, #quizRetryBtn { padding: 7px 11px; font-size: 0.95em;}
+      .card-menu { min-width: 95vw; max-width: 99vw; padding: 18px 6vw 18px 6vw;}
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="hero-anim">
+      <img src="carbonbaby.png" class="hero-char" id="heroChar" alt="可愛角色"/>
+    </div>
+    <h1>碳足跡日記</h1>
+    <p class="subtitle">用有趣的互動和角色陪伴，記錄你的低碳生活</p>
+    <a class="btn main" href="diary.html">開始今天的日記</a>
+  </header>
+
+  <section class="card-list">
+    <div class="card-menu">
+      <span>💡</span>
+      <div>
+        <h3>環保小知識</h3>
+        <p id="randFact">...</p>
+      </div>
+    </div>
+    <div class="card-menu">
+      <span>❓</span>
+      <div>
+        <h3>每日小問答</h3>
+        <div id="quizArea"></div>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="main-footer">
+    <p>設計與資料整理：碳足跡日記團隊</p>
+  </footer>
+  <script>
+    // 2. 隨機小知識
+    const facts=[
+      "冷氣調高1°C，可省下6%用電量！",
+      "步行1公里=減少約250g CO₂e！",
+      "資源回收一公斤鋁罐可省20倍能量。",
+      "每週一天全素，年減碳超50kg。",
+      "台灣每年人均塑膠餐具超700件！",
+      "用手帕代替紙巾，年省減碳約12公斤！",
+      "隨手關燈，年省電減碳60公斤！"
+    ];
+    document.getElementById('randFact').textContent = facts[Math.floor(Math.random()*facts.length)];
+
+    // 3. 小問答隨機多題（答對直接顯示「換一題」按鈕）
+    const quizData=[
+      {
+        q:"哪種食物碳足跡最高？",
+        opts:["牛肉","蔬菜","米飯"],
+        a:0
+      },
+      {
+        q:"資源回收能減少什麼？",
+        opts:["能量消耗","碳排放","垃圾量","以上皆是"],
+        a:3
+      },
+      {
+        q:"下列哪種交通最環保？",
+        opts:["步行/騎腳踏車","開車","搭機車"],
+        a:0
+      },
+      {
+        q:"使用一次性塑膠餐具會造成？",
+        opts:["碳排增加","垃圾量增加","資源浪費","以上皆是"],
+        a:3
+      },
+      {
+        q:"吃素一餐約可減少多少CO₂e？",
+        opts:["100g","1000g","10g"],
+        a:1
+      },
+      {
+        q:"冷氣調高1°C效果為？",
+        opts:["減少用電與碳排","沒差","增加碳排"],
+        a:0
+      },
+      {
+        q:"SDG 13 主要目標是？",
+        opts:["氣候行動","海洋保育","性別平等"],
+        a:0
+      }
+    ];
+
+    // 目前題目index
+    let quizIdx = Math.floor(Math.random()*quizData.length);
+
+    function renderQuiz(idx) {
+      const quiz = quizData[idx];
+      let html = `<div><b>${quiz.q}</b></div>`;
+      html += `<div class="quiz-btn-group">`;
+      quiz.opts.forEach((o,i)=>{
+        html += `<button class="quiz-opt" onclick="quizAns(${i},${quiz.a},this)">${o}</button>`;
+      });
+      html += `</div><div id="quizFeedback" style="margin-top:7px;"></div>
+               <div id="quizCountdown"></div>`;
+      document.getElementById('quizArea').innerHTML = html;
+    }
+
+    // 第一次載入
+    renderQuiz(quizIdx);
+
+    window.quizAns = function(i, a, btn) {
+      let fb = document.getElementById('quizFeedback');
+      let countdown = document.getElementById('quizCountdown');
+      btn.parentNode.querySelectorAll('button').forEach(b=>b.disabled=true);
+
+      if(i==a){
+        fb.textContent = "答對了！";
+        fb.style.color="#43a047";
+        // 立即出現換一題按鈕
+        countdown.innerHTML = `<button id="quizNextBtn">換一題</button>`;
+        document.getElementById('quizNextBtn').onclick = ()=>{
+          let newIdx;
+          do { newIdx = Math.floor(Math.random()*quizData.length); } while(newIdx === quizIdx && quizData.length > 1);
+          quizIdx = newIdx;
+          renderQuiz(quizIdx);
+        };
+      }else{
+        fb.textContent = "再想想！";
+        fb.style.color="#d84315";
+        let sec = 3;
+        countdown.innerHTML = `可以在 <b>${sec}</b> 秒後再試一次，或&nbsp; <button id="quizNextBtn">換一題</button>`;
+        let timer = setInterval(()=>{
+          sec--;
+          countdown.innerHTML = `可以在 <b>${sec}</b> 秒後再試一次，或&nbsp; <button id="quizNextBtn">換一題</button>`;
+          if(sec<=0){
+            clearInterval(timer);
+            countdown.innerHTML = `<button id="quizRetryBtn">再答一次</button>　<button id="quizNextBtn">換一題</button>`;
+            document.getElementById('quizRetryBtn').onclick = ()=>{
+              renderQuiz(quizIdx);
+            };
+            document.getElementById('quizNextBtn').onclick = ()=>{
+              let newIdx;
+              do { newIdx = Math.floor(Math.random()*quizData.length); } while(newIdx === quizIdx && quizData.length > 1);
+              quizIdx = newIdx;
+              renderQuiz(quizIdx);
+            };
+          }
+        },1000);
+        // 換題按鈕立即可點
+        document.getElementById('quizNextBtn').onclick = ()=>{
+          let newIdx;
+          do { newIdx = Math.floor(Math.random()*quizData.length); } while(newIdx === quizIdx && quizData.length > 1);
+          quizIdx = newIdx;
+          renderQuiz(quizIdx);
+        };
+      }
+    };
+  </script>
+</body>
+</html>
