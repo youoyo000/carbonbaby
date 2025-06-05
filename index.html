@@ -32,7 +32,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      /* left margin for visual balance */
       margin-left: 0;
     }
     .hero-char {
@@ -150,7 +149,7 @@
       background: linear-gradient(125deg, #f0fff0 70%, #fffde7 100%);
       border-color: #fff9c4;
     }
-    /* v32 每日問答排版：column，按鈕上下各一行，選項長條、間距大、響應式 */
+    /* 新增：每日問答2*2選項排版與縮小按鈕 */
     .quiz-area-v32 {
       display: flex;
       flex-direction: column;
@@ -166,9 +165,9 @@
       text-align: left;
     }
     .quiz-btns-v32 {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
       width: 100%;
       margin-bottom: 8px;
     }
@@ -176,18 +175,18 @@
       background: linear-gradient(90deg, #81c784 70%, #ffd54f 100%);
       color: #226746;
       border: none;
-      border-radius: 18px;
-      padding: 14px 0;
-      font-size: 1.11em;
+      border-radius: 15px;
+      padding: 11px 0;
+      font-size: 1em;
       font-weight: bold;
       cursor: pointer;
       transition: background 0.15s, color 0.15s, transform 0.11s;
-      box-shadow: 0 2px 14px #81c78422;
+      box-shadow: 0 2px 10px #81c78422;
       letter-spacing: 1px;
       outline: none;
-      min-width: 160px;
+      min-width: 72px;
       margin: 0 auto;
-      width: 95%;
+      width: 96%;
       text-align: center;
       display: block;
     }
@@ -285,7 +284,11 @@
         max-width: 99vw;
         padding: 15px 2vw 15px 2vw;
       }
-      .quiz-opt-v32 { min-width: 90px; font-size: 1em; }
+      .quiz-btns-v32 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .quiz-opt-v32 { min-width: 60px; font-size: 0.98em; }
     }
   </style>
 </head>
@@ -348,7 +351,7 @@
       },
       {
         q:"下列哪種交通最環保？",
-        opts:["步行/騎腳踏車","開車","搭機車","搭公車"],
+        opts:["步行/單車","開車","搭機車","搭公車"],
         a:0
       },
       {
