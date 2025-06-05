@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>碳足跡日記 - 填寫日記</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: #f8fafc;
+    }
+    /* 讓 container 不要貼頂，稍微留一點空間 */
+    .container.diary {
+      width: 100%;
+      max-width: 1200px;
+      margin: 40px auto 0 auto;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* 卡片區2行6列正方形，寬度最大1080px，手機1行12列且非正方形 */
+    .diary-cards {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 20px 28px;
+      margin-bottom: 18px;
+      width: 100%;
+      max-width: 1080px;
+    }
+    .diary-card {
+      aspect-ratio: 1/1;
+      width: 100%;
+      background: linear-gradient(100deg,#f3f9f7 80%,#e0f2f1 100%);
+      border-radius: 18px;
+      box-shadow: 0 2px 10px #81c78422;
+      border: 2.5px solid #f3f9f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: border .18s, box-shadow .18s, background .18s;
+      cursor: pointer;
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      user-select: none;
+    }
+    .diary-card.selected {
+      background: linear-gradient(100deg,#e8f5e9 70%,#f3e5f5 100%);
+      border-color: #43a04744;
+      box-shadow: 0 6px 18px #43a04722;
+    }
+    .diary-card .emoji {
+      font-size: 2.5em;
+      margin-bottom: 9px;
+      filter: drop-shadow(0 1px 1px #b2dfdb88);
+      pointer-events: none;
+      user-select: none;
+    }
+    .diary-card .label {
+      font-size: 1.13em;
+      color: #226746;
+      font-weight: 700;
+      text-align: center;
+      margin: 0;
+      pointer-events: none;
+      user-select: none;
+      word-break: break-all;
+      padding: 0 6px;
+    }
+    .diary-card input[type="checkbox"] {
+      display: none !important;
+    }
+    .diary-card:not(.selected):hover {
+      background: #f1f8e9;
+      border-color: #81c784;
+    }
+    .diary-char-area {
+      width: 100%;
+      height: 0;
+      position: relative;
+      z-index: 2;
+      max-width: 1080px;
+    }
+    .diary-char-area .char-emoji {
+      font-size: 2.2em;
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      transition: left .5s cubic-bezier(.4,0,.2,1);
+      z-index: 4;
+      user-select: none;
+      filter: drop-shadow(0 2px 6px #e0f2f1);
+    }
+    .diary-progress-bg {
+      width: 100%;
+      max-width: 1080px;
+      background: #e0f2f1;
+      height: 22px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .diary-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #81c784 60%, #ffd54f 100%);
+      width: 0%;
+      transition: width 0.35s;
+    }
+    .diary-tip-bar {
+      background: #fffde7;
+      border-left: 5px solid #ffd54f;
+      padding: 10px 15px;
+      border-radius: 0 10px 10px 0;
+      font-size: 1em;
+      color: #795548;
+      margin-bottom: 13px;
+      min-height: 32px;
+      display: flex; align-items: center; gap: 7px;
+      width: 100%;
+      max-width: 1080px;
+    }
+    .diary-tip-bar .tip-emoji {font-size:1.2em;}
+    .btn.diary-submit {
+      background: linear-gradient(90deg, #43a047 70%, #ffd54f 100%);
+      color: #fff;
+      padding: 13px 0;
+      width: 100%;
+      max-width: 1080px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.18em;
+      font-weight: bold;
+      margin-top: 18px;
+      box-shadow: 0 2px 8px rgba(51,124,91,0.11);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 9px;
+      display: block;
+    }
+    .btn.diary-submit:hover {
+      background: linear-gradient(90deg, #2e7031 70%, #ffd54f 100%);
+    }
+    .back-link {
+      display: block;
+      text-align: right;
+      color: #388e3c;
+      text-decoration: underline;
+      margin-top: 12px;
+      font-size: 1.05em;
+      width: 100%;
+      max-width: 1080px;
+    }
+    /* 響應式：手機時卡片區1行12列，卡片恢復一般矩形(非正方形) */
+    @media (max-width:800px) {
+      .diary-cards {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(12, auto);
+        gap: 14px 0;
+        max-width: 420px;
+      }
+      .container.diary {
+        padding: 0 2vw;
+      }
+      .diary-card {
+        aspect-ratio: unset;
+        height: auto;
+        min-height: 72px;
+        padding: 18px 12px;
+      }
+    }
+    @media (max-width:600px) {
+      .diary-char-area .char-emoji {font-size: 1.5em;}
+      .diary-progress-bg {height: 18px;}
+      .diary-card {border-radius: 10px;}
+      .diary-card .emoji {font-size:1.5em;}
+      .diary-card .label {font-size:1em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container diary">
+    <div class="diary-char-area">
+      <span class="char-emoji" id="diaryCharEmoji">🙂</span>
+    </div>
+    <div class="diary-progress-bg">
+      <div class="diary-progress-bar" id="progressBar"></div>
+    </div>
+    <form id="diaryForm" autocomplete="off">
+      <div class="diary-cards" id="diaryCards"></div>
+      <div class="diary-tip-bar" id="diaryTip">
+        <span class="tip-emoji">💬</span>
+        <span id="tipText">每天勾選你的低碳行動，角色表情會隨進度條左右移動！</span>
+      </div>
+      <button class="btn diary-submit" type="submit">✨ 看看我的今日碳足跡 ✨</button>
+    </form>
+    <a class="back-link" href="index.html">← 回首頁</a>
+  </div>
+  <script>
+    // 行為卡資料（12項）
+    const actions = [
+      {val:"walk",emoji:"🚶‍♂️🚴",txt:"騎腳踏車上學/<br>步行/上班"},
+      {val:"bus",emoji:"🚌",txt:"搭乘大眾運輸"},
+      {val:"drive",emoji:"🚗",txt:"自己開車/騎機車"},
+      {val:"ac",emoji:"❄️",txt:"冷氣開超過2小時"},
+      {val:"beef",emoji:"🥩",txt:"吃牛肉"},
+      {val:"pork",emoji:"🍖",txt:"吃豬肉"},
+      {val:"chicken",emoji:"🍗",txt:"吃雞肉"},
+      {val:"vegetarian",emoji:"🥗",txt:"一餐吃素"},
+      {val:"recycle",emoji:"♻️",txt:"做資源回收"},
+      {val:"plastic",emoji:"🥤",txt:"使用一次性<br>塑膠餐具"},
+      {val:"bag",emoji:"🛍️",txt:"自備購物袋"},
+      {val:"handkerchief",emoji:"🧻",txt:"用手帕代替紙巾"}
+    ];
+
+    // 角色表情定義(根據分數)
+    function getCharState(score) {
+      if(score<=0) return {emoji:"😄"};
+      if(score<=2) return {emoji:"🙂"};
+      return {emoji:"😅"};
+    }
+    // 行為分數
+    const actScore = {
+      walk:-2, bus:-1, drive:2, ac:3, beef:2, pork:1, chicken:1, vegetarian:-1, recycle:-1,
+      plastic:1, bag:-1, handkerchief:-1
+    };
+
+    // 生成卡片
+    const cards = document.getElementById('diaryCards');
+    actions.forEach((a,i)=>{
+      const div = document.createElement('div');
+      div.className = "diary-card";
+      div.innerHTML = `
+        <input type="checkbox" name="actions" value="${a.val}" id="chk_${a.val}">
+        <span class="emoji">${a.emoji}</span>
+        <span class="label">${a.txt}</span>
+      `;
+      div.onclick = e=>{
+        const cb = div.querySelector('input');
+        cb.checked = !cb.checked;
+        div.classList.toggle('selected', cb.checked);
+        updateDiaryState();
+      };
+      cards.appendChild(div);
+    });
+
+    // 進度條、表情移動、金句
+    function updateDiaryState() {
+      const cbs = Array.from(document.querySelectorAll('input[name="actions"]'));
+      const checked = cbs.filter(cb=>cb.checked).map(cb=>cb.value);
+      // 進度條
+      const percent = Math.round(checked.length / actions.length * 100);
+      document.getElementById('progressBar').style.width = percent+"%";
+      // 表情
+      let score = 0;
+      checked.forEach(act=>score+=actScore[act]||0);
+      const state = getCharState(score);
+      const emoji = document.getElementById('diaryCharEmoji');
+      emoji.textContent = state.emoji;
+      // Emoji根據進度條移動，範圍5%~95%
+      const minLeft = 5, maxLeft = 95;
+      const left = minLeft + (maxLeft - minLeft) * (checked.length / actions.length);
+      emoji.style.left = `calc(${left}% )`;
+      // 提示
+      const tips = [
+        "選擇步行或大眾運輸，地球笑開懷！",
+        "自備購物袋+手帕，小細節也能救地球！",
+        "冷氣少吹一小時，省碳又省錢～",
+        "一餐吃素，減碳1000g，超有感！",
+        "做資源回收，是你我最簡單的低碳行動",
+        "環保從日常做起，角色也會陪你一起進步！"
+      ];
+      document.getElementById('tipText').textContent = tips[Math.floor(Math.random()*tips.length)];
+      document.getElementById('diaryTip').style.background = ["#fffde7","#e3f2fd","#f1f8e9","#fce4ec","#f3e5f5"][checked.length%5];
+    }
+    updateDiaryState();
+
+    // 表單送出
+    document.getElementById('diaryForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const checked = Array.from(document.querySelectorAll('input[name="actions"]')).filter(cb=>cb.checked).map(cb=>cb.value);
+      localStorage.setItem('carbonActions', JSON.stringify(checked));
+      window.location.href = "result.html";
+    });
+  </script>
+</body>
+</html>
